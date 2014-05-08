@@ -1,12 +1,12 @@
-function psearch(name) {
+function psearch(attr, value) {
 	//console.log(psearchSub(document.documentElement, name));
-	return psearchSub(document.documentElement, name);
+	return psearchSub(document.documentElement, attr, value);
 }
 
-function psearchSub(elem, name) {
+function psearchSub(elem, attr, value) {
 	var result = [];
 	
-	if (matchName(elem, name))
+	if (matchAttr(elem, attr, value))
 		result.push(elem);
 
 	//process childNodes
@@ -17,7 +17,7 @@ function psearchSub(elem, name) {
 		if (childNodes[i] !== undefined) {
 
 			//console.log(elem.tagName);
-			result = result.concat(psearchSub(childNodes[i], name));
+			result = result.concat(psearchSub(childNodes[i], attr, value));
 
 		}
 	}
@@ -80,14 +80,14 @@ function getFrame(frameNode) {
 	//return frameNode.contentDocument.getElementsByTagName('html')[0];
 }
 
-function matchName(elem, name) {
-	if (getName(elem) === name)
+function matchAttr(elem, attr, value) {
+	if (getAttr(elem, attr) === value)
 		return true;
 	else
 		return false;
 }
 
-function getName(elem) {
+function getAttr(elem, attr) {
 
 	//old way to avoid exception
 	//if ((elem.nodeValue !== null) && (elem.nodeValue !== 1))
@@ -96,15 +96,16 @@ function getName(elem) {
 	if (typeof(elem.getAttribute) === 'undefined')
 		return '';
 
-	var name=elem.getAttribute('name');
-	if (name !== null) {
+	//var name=elem.getAttribute('name');
+	var attr=elem.getAttribute(attr);
+	if (attr !== null) {
 		
 		//if (typeof(elem.tagName) !== 'undefined')
 			//console.log('tagName: ' + elem.tagName);
 
 		//console.log('attrName: ' + name);
 
-		return name;
+		return attr;
 
 	} else {
 		return '';
